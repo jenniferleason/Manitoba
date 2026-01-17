@@ -27,7 +27,7 @@ with col1:
     st.markdown("""
     <div class="metric-card metric-card-blue">
         <p class="metric-value">45</p>
-        <p class="metric-label">First Nations Communities</p>
+        <p class="metric-label">FN Communities</p>
     </div>
     """, unsafe_allow_html=True)
 

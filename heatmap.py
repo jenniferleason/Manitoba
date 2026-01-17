@@ -86,10 +86,6 @@ if heatmap_on:
 
 # Title & story
 st.title("Heat Map: Density of First Nations Communities in Manitoba")
-st.markdown("""
-**Story this map tells**:  
-Northern and eastern Manitoba show the strongest clustering of First Nations communities. These high-density remote areas likely experience the greatest combined need for medical travel and emergency maternal evacuation services.
-""")
 
 st_folium(m, width=1200, height=700, returned_objects=[])
 

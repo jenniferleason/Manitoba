@@ -6,7 +6,7 @@ from folium.plugins import HeatMap
 
 st.set_page_config(page_title="Manitoba First Nations Heat Map", layout="wide")
 
-# ── Data (your communities) ─────────────────────────────────────────────
+# ── Data ────────────────────────────────────────────────────────────────
 communities_data = """Name,Traditional_Name,Affiliation,Longitude,Latitude
 Northlands Denesuline,Dahlu T'ua,Dene,-101.494724,58.618842
 Sayisi Dene,Tes-He-Olie Twe,Dene,-98.485499,58.714481
@@ -56,24 +56,19 @@ Sioux Valley,Wipazoka Wakpa,Dakota,-100.497113,49.849205"""
 
 df = pd.read_csv(pd.io.common.StringIO(communities_data))
 
-# ── Sidebar Controls ────────────────────────────────────────────────────
-st.sidebar.title("Heat Map Settings")
-
-heatmap_on = st.sidebar.checkbox("Show Heatmap", value=True)
-radius = st.sidebar.slider("Radius (spread)", 10, 60, 30)
-blur = st.sidebar.slider("Blur (smoothness)", 5, 35, 15)
-max_zoom = st.sidebar.slider("Max Zoom Level", 1, 18, 12)
-
-st.sidebar.markdown("---")
-st.sidebar.caption("Red/orange = highest density of communities")
+# ── Sidebar ─────────────────────────────────────────────────────────────
+st.sidebar.title("Heat Map Controls")
+show_heatmap = st.sidebar.checkbox("Show Heatmap", value=True)
+radius = st.sidebar.slider("Radius", 10, 60, 30)
+blur = st.sidebar.slider("Blur", 5, 35, 15)
+max_zoom = st.sidebar.slider("Max Zoom", 1, 18, 12)
 
 # ── Map ─────────────────────────────────────────────────────────────────
 m = folium.Map(location=[54.0, -98.0], zoom_start=5, tiles='CartoDB positron')
 m.fit_bounds([[49.0, -102.0], [60.0, -89.0]])
 
-if heatmap_on:
-    # Heatmap data: [lat, lon, intensity]
-    # Here intensity = 1 per community (simple density)
+if show_heatmap:
+    # Simple density: one point per community, intensity = 1
     heat_data = [[row['Latitude'], row['Longitude'], 1] for _, row in df.iterrows()]
 
     HeatMap(
@@ -84,10 +79,15 @@ if heatmap_on:
         gradient={0.1: 'blue', 0.3: 'cyan', 0.5: 'lime', 0.7: 'yellow', 0.9: 'orange', 1.0: 'red'}
     ).add_to(m)
 
-# Title & story
+# ── Title & Story ───────────────────────────────────────────────────────
 st.title("Heat Map: Density of First Nations Communities in Manitoba")
 
-st_folium(m, width=1200, height=700, returned_objects=[])
+st.markdown("""
+**Story this map tells:**  
+Northern and eastern Manitoba show the strongest clustering of First Nations communities. These high-density remote areas likely experience the greatest combined need for medical travel and emergency maternal evacuation services.
+""")
 
-st.caption("Data source: Manitoba First Nations community locations | "
-           "Heatmap shows geographic density only (not weighted by population or travel cost yet)")
+st_folium(m, width=1200, height=700)
+
+st.caption("Data: Manitoba First Nations community locations | "
+           "Heatmap shows geographic density only (not weighted by population or travel cost)")

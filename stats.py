@@ -1,3 +1,7 @@
+st.markdown("""
+<meta name="viewport" content="width=device-width, initial-scale=1">
+""", unsafe_allow_html=True)
+
 import streamlit as st
 
 st.set_page_config(page_title="Key Stats", layout="wide")

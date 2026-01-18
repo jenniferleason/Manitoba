@@ -55,7 +55,7 @@ with col4:
     st.markdown("""
     <div class="metric-card metric-card-orange">
         <p class="metric-value">$19.4M</p>
-        <p class="metric-label">Travel Costs (7 Years)</p>
+        <p class="metric-label">Travel Costs</p>
     </div>
     """, unsafe_allow_html=True)
 

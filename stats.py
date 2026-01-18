@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# FORCE HIDE STREAMLIT BRANDING (UGLY BUT WORKS)
+# FORCE HIDE STREAMLIT BRANDING + TIGHT LAYOUT
 # --------------------------------------------------
 st.markdown(
     """
@@ -33,27 +33,33 @@ st.markdown(
             overflow: hidden !important;
         }
 
-        /* Hide fullscreen button explicitly */
+        /* Hide fullscreen button */
         button[title="View fullscreen"],
         button[aria-label="View fullscreen"] {
             display: none !important;
             visibility: hidden !important;
         }
 
-        /* Remove extra spacing */
+        /* Remove Streamlit page padding */
         .block-container {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
 
-        /* Metric card styles */
+        /* Remove column vertical spacing */
+        div[data-testid="column"] {
+            padding-top: 0rem !important;
+            padding-bottom: 0rem !important;
+        }
+
+        /* Metric card styles (REDUCED HEIGHT) */
         .metric-card {
-            padding: 25px;
+            padding: 16px;
             border-radius: 16px;
             color: white;
             text-align: center;
             box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
 
         .metric-card-blue {
@@ -77,21 +83,21 @@ st.markdown(
         }
 
         .metric-value {
-            font-size: 42px;
+            font-size: 34px;
             font-weight: 700;
             margin: 0;
         }
 
         .metric-label {
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.9;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         /* Mobile scaling */
         @media (max-width: 768px) {
             .metric-value {
-                font-size: 32px;
+                font-size: 28px;
             }
         }
     </style>
@@ -100,7 +106,7 @@ st.markdown(
 )
 
 # --------------------------------------------------
-# METRIC CARDS (RESPONSIVE LAYOUT)
+# METRIC CARDS
 # --------------------------------------------------
 
 # Row 1 (3 cards)

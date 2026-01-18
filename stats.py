@@ -10,28 +10,37 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# Hide Streamlit branding + footer + fullscreen
+# FORCE HIDE STREAMLIT BRANDING (UGLY BUT WORKS)
 # --------------------------------------------------
 st.markdown(
     """
     <style>
-        /* Hide Streamlit hamburger menu */
-        #MainMenu {visibility: hidden;}
-
-        /* Hide bottom toolbar (Built with Streamlit + Fullscreen) */
-        div[data-testid="stToolbar"] {
-            visibility: hidden;
-            height: 0px;
-            position: fixed;
+        /* Hide Streamlit menu */
+        #MainMenu {
+            display: none !important;
         }
 
-        /* Hide footer completely */
-        footer {
-            visibility: hidden;
-            height: 0px;
+        /* Hide all known footer / toolbar injections */
+        footer,
+        div[data-testid="stToolbar"],
+        div[data-testid="stStatusWidget"],
+        div[data-testid="stDecoration"],
+        div[class*="streamlit"] footer,
+        div[class*="stToolbar"] {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            overflow: hidden !important;
         }
 
-        /* Remove extra padding for embeds */
+        /* Hide fullscreen button explicitly */
+        button[title="View fullscreen"],
+        button[aria-label="View fullscreen"] {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* Remove extra spacing */
         .block-container {
             padding-top: 1rem;
             padding-bottom: 1rem;
@@ -79,7 +88,7 @@ st.markdown(
             margin-top: 8px;
         }
 
-        /* Mobile adjustments */
+        /* Mobile scaling */
         @media (max-width: 768px) {
             .metric-value {
                 font-size: 32px;
@@ -94,7 +103,7 @@ st.markdown(
 # METRIC CARDS (RESPONSIVE LAYOUT)
 # --------------------------------------------------
 
-# Row 1 – 3 cards
+# Row 1 (3 cards)
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -121,7 +130,7 @@ with col3:
         </div>
     """, unsafe_allow_html=True)
 
-# Row 2 – 2 cards
+# Row 2 (2 cards)
 col4, col5 = st.columns(2)
 
 with col4:

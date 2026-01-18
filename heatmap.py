@@ -56,38 +56,19 @@ Sioux Valley,Wipazoka Wakpa,Dakota,-100.497113,49.849205"""
 
 df = pd.read_csv(pd.io.common.StringIO(communities_data))
 
-# ── Sidebar ─────────────────────────────────────────────────────────────
-st.sidebar.title("Heat Map Controls")
-show_heatmap = st.sidebar.checkbox("Show Heatmap", value=True)
-radius = st.sidebar.slider("Radius", 10, 60, 30)
-blur = st.sidebar.slider("Blur", 5, 35, 15)
-max_zoom = st.sidebar.slider("Max Zoom", 1, 18, 12)
-
 # ── Map ─────────────────────────────────────────────────────────────────
 m = folium.Map(location=[54.0, -98.0], zoom_start=5, tiles='CartoDB positron')
 m.fit_bounds([[49.0, -102.0], [60.0, -89.0]])
 
-if show_heatmap:
-    # Simple density: one point per community, intensity = 1
-    heat_data = [[row['Latitude'], row['Longitude'], 1] for _, row in df.iterrows()]
+# Heatmap (always shown in this version)
+heat_data = [[row['Latitude'], row['Longitude'], 1] for _, row in df.iterrows()]
+HeatMap(
+    heat_data,
+    radius=30,
+    blur=15,
+    max_zoom=12,
+    gradient={0.1: 'blue', 0.3: 'cyan', 0.5: 'lime', 0.7: 'yellow', 0.9: 'orange', 1.0: 'red'}
+).add_to(m)
 
-    HeatMap(
-        heat_data,
-        radius=radius,
-        blur=blur,
-        max_zoom=max_zoom,
-        gradient={0.1: 'blue', 0.3: 'cyan', 0.5: 'lime', 0.7: 'yellow', 0.9: 'orange', 1.0: 'red'}
-    ).add_to(m)
-
-# ── Title & Story ───────────────────────────────────────────────────────
-st.title("Heat Map: Density of First Nations Communities in Manitoba")
-
-st.markdown("""
-**Story this map tells:**  
-Northern and eastern Manitoba show the strongest clustering of First Nations communities. These high-density remote areas likely experience the greatest combined need for medical travel and emergency maternal evacuation services.
-""")
-
-st_folium(m, width=1200, height=700)
-
-st.caption("Data: Manitoba First Nations community locations | "
-           "Heatmap shows geographic density only (not weighted by population or travel cost)")
+# Just the map — no padding, fills most of the screen
+st_folium(m, width=None, height=850)
